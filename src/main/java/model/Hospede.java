@@ -1,7 +1,6 @@
 package model;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,17 +17,9 @@ public class Hospede {
     private String email;
 
     @OneToMany(mappedBy = "hospede")
-    private List<Reserva> reservas = new ArrayList<>();
+    private List<Reserva> reservas;
 
     public Hospede() {}
-
-    public Hospede(Long id, String nome, String cpf, String telefone, String email) {
-        this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.telefone = telefone;
-        this.email = email;
-    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

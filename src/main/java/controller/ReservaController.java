@@ -27,19 +27,7 @@ public class ReservaController {
 
     @PostMapping
     public String salvar(@ModelAttribute Reserva reserva) {
-        reservaService.criarReserva(reserva);
-        return "redirect:/reservas";
-    }
-
-    @PostMapping("/{id}/checkin")
-    public String realizarCheckIn(@PathVariable Long id) {
-        reservaService.realizarCheckIn(id);
-        return "redirect:/reservas";
-    }
-
-    @PostMapping("/{id}/checkout")
-    public String realizarCheckOut(@PathVariable Long id) {
-        reservaService.realizarCheckOut(id);
+        reservaService.salvar(reserva);
         return "redirect:/reservas";
     }
 }

@@ -1,7 +1,6 @@
 package model;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,20 +15,13 @@ public class Hotel {
     private String endereco;
     private String telefone;
 
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
-    private List<Quarto> quartos = new ArrayList<>();
+    @OneToMany(mappedBy = "hotel")
+    private List<Quarto> quartos;
 
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
-    private List<Funcionario> funcionarios = new ArrayList<>();
+    @OneToMany(mappedBy = "hotel")
+    private List<Funcionario> funcionarios;
 
     public Hotel() {}
-
-    public Hotel(Long id, String nome, String endereco, String telefone) {
-        this.id = id;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.telefone = telefone;
-    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

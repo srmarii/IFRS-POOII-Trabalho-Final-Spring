@@ -1,12 +1,9 @@
 package service;
-import model.*;
-import repository.*;
-import org.springframework.stereotype.Service;
-import java.util.List;
 
 import model.Funcionario;
 import repository.FuncionarioRepository;
-
+import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class FuncionarioService {

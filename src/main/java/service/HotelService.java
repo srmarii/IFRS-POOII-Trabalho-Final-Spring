@@ -1,12 +1,9 @@
 package service;
 
-import model.*;
-import repository.*;
-import org.springframework.stereotype.Service;
-import java.util.List;
-
 import model.Hotel;
 import repository.HotelRepository;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class HotelService {
@@ -19,11 +16,6 @@ public class HotelService {
 
     public List<Hotel> listarTodos() {
         return hotelRepository.findAll();
-    }
-
-    public Hotel buscarPorId(Long id) {
-        return hotelRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Hotel não encontrado."));
     }
 
     public Hotel salvar(Hotel hotel) {

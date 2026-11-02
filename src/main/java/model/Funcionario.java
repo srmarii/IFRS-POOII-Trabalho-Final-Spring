@@ -21,15 +21,6 @@ public class Funcionario {
 
     public Funcionario() {}
 
-    public Funcionario(Long id, String nome, String cpf, String cargo, Double salario, Hotel hotel) {
-        this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.cargo = cargo;
-        this.salario = salario;
-        this.hotel = hotel;
-    }
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

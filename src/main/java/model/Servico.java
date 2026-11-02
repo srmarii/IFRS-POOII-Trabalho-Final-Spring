@@ -16,13 +16,6 @@ public class Servico {
 
     public Servico() {}
 
-    public Servico(Long id, String nome, String descricao, Double valor) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.valor = valor;
-    }
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

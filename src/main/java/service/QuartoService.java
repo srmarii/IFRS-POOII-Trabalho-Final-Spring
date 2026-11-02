@@ -1,13 +1,9 @@
 package service;
 
-import model.*;
-import repository.*;
+import model.Quarto;
+import repository.QuartoRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
-
-import model.Quarto;
-import model.StatusQuarto;
-import repository.QuartoRepository;
 
 @Service
 public class QuartoService {
@@ -22,15 +18,7 @@ public class QuartoService {
         return quartoRepository.findAll();
     }
 
-    public Quarto buscarPorId(Long id) {
-        return quartoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Quarto não encontrado."));
-    }
-
     public Quarto salvar(Quarto quarto) {
-        if (quarto.getStatusQuarto() == null) {
-            quarto.setStatusQuarto(StatusQuarto.DISPONIVEL);
-        }
         return quartoRepository.save(quarto);
     }
 }

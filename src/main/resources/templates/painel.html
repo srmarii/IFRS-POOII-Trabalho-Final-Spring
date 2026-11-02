@@ -9,53 +9,47 @@
     <a th:href="@{/}">← Voltar ao Menu Principal</a>
     <h2 th:text="${titulo}">Gerenciamento</h2>
 
-    <!-- FORMULÁRIO GENÉRICO DE CADASTRO -->
     <h3>Cadastrar Novo</h3>
     <form th:action="${urlSalvar}" method="post" style="margin-bottom: 30px;">
         
-        <!-- Campos para Hotéis -->
         <div th:if="${tipo == 'hotel'}">
-            <input type="text" name="nome" placeholder="Nome" required />
-            <input type="text" name="endereco" placeholder="Endereço" required />
-            <input type="text" name="telefone" placeholder="Telefone" required />
+            <input type="text" name="nome" placeholder="Nome" />
+            <input type="text" name="endereco" placeholder="Endereço" />
+            <input type="text" name="telefone" placeholder="Telefone" />
         </div>
 
-        <!-- Campos para Quartos -->
         <div th:if="${tipo == 'quarto'}">
-            <input type="number" name="numero" placeholder="Número" required />
-            <input type="number" name="capacidade" placeholder="Capacidade" required />
-            <input type="number" step="0.01" name="valorDiaria" placeholder="Valor Diária" required />
+            <input type="text" name="numero" placeholder="Número" />
+            <input type="text" name="capacidade" placeholder="Capacidade" />
+            <input type="text" name="valorDiaria" placeholder="Valor Diária" />
         </div>
 
-        <!-- Campos para Hóspedes -->
         <div th:if="${tipo == 'hospede'}">
-            <input type="text" name="nome" placeholder="Nome" required />
-            <input type="text" name="cpf" placeholder="CPF" required />
-            <input type="text" name="telefone" placeholder="Telefone" required />
-            <input type="email" name="email" placeholder="E-mail" required />
+            <input type="text" name="nome" placeholder="Nome" />
+            <input type="text" name="cpf" placeholder="CPF" />
+            <input type="text" name="telefone" placeholder="Telefone" />
+            <input type="text" name="email" placeholder="E-mail" />
         </div>
 
-        <!-- Campos para Funcionários -->
         <div th:if="${tipo == 'funcionario'}">
-            <input type="text" name="nome" placeholder="Nome" required />
-            <input type="text" name="cpf" placeholder="CPF" required />
-            <input type="text" name="cargo" placeholder="Cargo" required />
-            <input type="number" step="0.01" name="salario" placeholder="Salário" required />
+            <input type="text" name="nome" placeholder="Nome" />
+            <input type="text" name="cpf" placeholder="CPF" />
+            <input type="text" name="cargo" placeholder="Cargo" />
+            <input type="text" name="salario" placeholder="Salário" />
         </div>
 
-        <!-- Campos para Serviços Extra -->
         <div th:if="${tipo == 'servico'}">
-            <input type="text" name="nome" placeholder="Nome do Serviço" required />
-            <input type="text" name="descricao" placeholder="Descrição" required />
-            <input type="number" step="0.01" name="valor" placeholder="Valor (R$)" required />
+            <input type="text" name="nome" placeholder="Nome do Serviço" />
+            <input type="text" name="descricao" placeholder="Descrição" />
+            <input type="text" name="valor" placeholder="Valor (R$)" />
         </div>
 
-        <!-- Campos para Reservas -->
-        <div th:if="${tipo == 'reserva'}">
-            <label>Data Entrada:</label> <input type="date" name="dataEntrada" required /><br><br>
-            <label>Data Saída:</label> <input type="date" name="dataSaida" required /><br><br>
-            <label>ID Hóspede:</label> <input type="number" name="hospede.id" required /><br><br>
-            <label>ID Quarto:</label> <input type="number" name="quarto.id" required /><br><br>
+		<div th:if="${tipo == 'reserva'}">
+            <label>Data Entrada:</label> <input type="date" name="dataEntrada" /><br><br>
+            <label>Data Saída:</label> <input type="date" name="dataSaida" /><br><br>
+            <label>ID Hóspede:</label> <input type="number" name="hospede.id" /><br><br>
+            <label>ID Quarto:</label> <input type="number" name="quarto.id" /><br><br>
+            <label>Valor Total:</label> <input type="number" step="any" name="valorTotal" /><br><br>
         </div>
 
         <br>
@@ -64,11 +58,9 @@
 
     <hr>
 
-    <!-- TABELA GENÉRICA DE LISTAGEM -->
     <h3>Cadastrados</h3>
     <table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
         
-        <!-- Tabela de Hotéis -->
         <tbody th:if="${tipo == 'hotel'}">
             <tr><th>ID</th><th>Nome</th><th>Endereço</th><th>Telefone</th></tr>
             <tr th:each="item : ${lista}">
@@ -79,19 +71,16 @@
             </tr>
         </tbody>
 
-        <!-- Tabela de Quartos -->
         <tbody th:if="${tipo == 'quarto'}">
-            <tr><th>ID</th><th>Número</th><th>Capacidade</th><th>Diária</th><th>Status</th></tr>
+            <tr><th>ID</th><th>Número</th><th>Capacidade</th><th>Diária</th></tr>
             <tr th:each="item : ${lista}">
                 <td th:text="${item.id}"></td>
                 <td th:text="${item.numero}"></td>
                 <td th:text="${item.capacidade}"></td>
-                <td th:text="'R$ ' + ${item.valorDiaria}"></td>
-                <td th:text="${item.statusQuarto}"></td>
+                <td th:text="${item.valorDiaria}"></td>
             </tr>
         </tbody>
 
-        <!-- Tabela de Hóspedes -->
         <tbody th:if="${tipo == 'hospede'}">
             <tr><th>ID</th><th>Nome</th><th>CPF</th><th>Telefone</th><th>E-mail</th></tr>
             <tr th:each="item : ${lista}">
@@ -103,7 +92,6 @@
             </tr>
         </tbody>
 
-        <!-- Tabela de Funcionários -->
         <tbody th:if="${tipo == 'funcionario'}">
             <tr><th>ID</th><th>Nome</th><th>CPF</th><th>Cargo</th><th>Salário</th></tr>
             <tr th:each="item : ${lista}">
@@ -111,40 +99,29 @@
                 <td th:text="${item.nome}"></td>
                 <td th:text="${item.cpf}"></td>
                 <td th:text="${item.cargo}"></td>
-                <td th:text="'R$ ' + ${item.salario}"></td>
+                <td th:text="${item.salario}"></td>
             </tr>
         </tbody>
 
-        <!-- Tabela de Serviços -->
         <tbody th:if="${tipo == 'servico'}">
             <tr><th>ID</th><th>Nome</th><th>Descrição</th><th>Valor</th></tr>
             <tr th:each="item : ${lista}">
                 <td th:text="${item.id}"></td>
                 <td th:text="${item.nome}"></td>
                 <td th:text="${item.descricao}"></td>
-                <td th:text="'R$ ' + ${item.valor}"></td>
+                <td th:text="${item.valor}"></td>
             </tr>
         </tbody>
 
-        <!-- Tabela de Reservas -->
         <tbody th:if="${tipo == 'reserva'}">
-            <tr><th>ID</th><th>Hóspede</th><th>Quarto</th><th>Entrada</th><th>Saída</th><th>Status</th><th>Valor Total</th><th>Ações</th></tr>
+            <tr><th>ID</th><th>Hóspede</th><th>Quarto</th><th>Entrada</th><th>Saída</th><th>Valor Total</th></tr>
             <tr th:each="item : ${lista}">
                 <td th:text="${item.id}"></td>
                 <td th:text="${item.hospede != null ? item.hospede.nome : '-'}"></td>
                 <td th:text="${item.quarto != null ? item.quarto.numero : '-'}"></td>
                 <td th:text="${item.dataEntrada}"></td>
                 <td th:text="${item.dataSaida}"></td>
-                <td th:text="${item.statusReserva}"></td>
-                <td th:text="'R$ ' + ${item.valorTotal}"></td>
-                <td>
-                    <form th:if="${item.statusReserva.name() == 'PENDENTE'}" th:action="@{/reservas/{id}/checkin(id=${item.id})}" method="post" style="display:inline;">
-                        <button type="submit">Check-in</button>
-                    </form>
-                    <form th:if="${item.statusReserva.name() == 'CONFIRMADA'}" th:action="@{/reservas/{id}/checkout(id=${item.id})}" method="post" style="display:inline;">
-                        <button type="submit">Check-out</button>
-                    </form>
-                </td>
+                <td th:text="${item.valorTotal}"></td>
             </tr>
         </tbody>
     </table>

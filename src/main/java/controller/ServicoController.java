@@ -18,7 +18,7 @@ public class ServicoController {
 
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("titulo", "Gerenciamento de Serviços Extra");
+        model.addAttribute("titulo", "Gerenciamento de Serviços");
         model.addAttribute("tipo", "servico");
         model.addAttribute("urlSalvar", "/servicos");
         model.addAttribute("lista", servicoService.listarTodos());
