@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- Botões Editar / Excluir reaproveitados por todas as tabelas do painel.html -->
+    <th:block th:fragment="acoes(item)">
+        <a th:href="@{|${urlBase}/${item.id}/editar|}">Editar</a>
+        <form th:action="@{|${urlBase}/${item.id}/excluir|}" method="post" style="display: inline;"
+              onsubmit="return confirm('Excluir este registro?');">
+            <button type="submit">Excluir</button>
+        </form>
+    </th:block>
+</body>
+</html>

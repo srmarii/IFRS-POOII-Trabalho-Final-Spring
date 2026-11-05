@@ -8,6 +8,11 @@ import java.time.LocalDate;
 @Table(name = "tb_reserva")
 public class Reserva {
 
+    public static final String PENDENTE = "Pendente";
+    public static final String CONFIRMADA = "Confirmada";
+    public static final String CANCELADA = "Cancelada";
+    public static final String FINALIZADA = "Finalizada";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,6 +24,9 @@ public class Reserva {
     private LocalDate dataSaida;
 
     private Double valorTotal;
+
+    @Column(length = 20)
+    private String situacao;
 
     @ManyToOne
     @JoinColumn(name = "hospede_id")
@@ -41,6 +49,9 @@ public class Reserva {
 
     public Double getValorTotal() { return valorTotal; }
     public void setValorTotal(Double valorTotal) { this.valorTotal = valorTotal; }
+
+    public String getSituacao() { return situacao; }
+    public void setSituacao(String situacao) { this.situacao = situacao; }
 
     public Hospede getHospede() { return hospede; }
     public void setHospede(Hospede hospede) { this.hospede = hospede; }

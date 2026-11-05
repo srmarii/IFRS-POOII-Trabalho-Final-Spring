@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Painel</title>
+</head>
+<body style="font-family: sans-serif; margin: 30px;">
+
+    <a th:href="@{/}">← Voltar ao Menu Principal</a>
+    <h2 th:text="${titulo}">Gerenciamento</h2>
+
+    <p th:if="${erro}" th:text="${erro}" style="color: #b00020; font-weight: bold;"></p>
+    <p th:if="${sucesso}" th:text="${sucesso}" style="color: #1b5e20; font-weight: bold;"></p>
+
+    <h3 th:text="${registro != null} ? 'Editar' : 'Cadastrar Novo'">Cadastrar Novo</h3>
+    <form th:action="${urlSalvar}" method="post" style="margin-bottom: 30px;">
+
+        <div th:if="${tipo == 'hotel'}">
+            <input type="text" name="nome" placeholder="Nome" th:value="${registro?.nome}" />
+            <input type="text" name="endereco" placeholder="Endereço" th:value="${registro?.endereco}" />
+            <input type="text" name="telefone" placeholder="Telefone" th:value="${registro?.telefone}" />
+        </div>
+
+        <div th:if="${tipo == 'quarto'}">
+            <input type="number" name="numero" placeholder="Número" th:value="${registro?.numero}" />
+            <input type="number" name="capacidade" placeholder="Capacidade" th:value="${registro?.capacidade}" />
+            <input type="number" step="any" name="valorDiariaBase" placeholder="Valor Diária Base" th:value="${registro?.valorDiariaBase}" />
+            <select name="tipoQuarto">
+                <option value="Simples" th:selected="${registro != null and registro.tipo == 'Simples'}">Simples</option>
+                <option value="VIP" th:selected="${registro != null and registro.tipo == 'VIP'}">VIP (diária × 1,5)</option>
+            </select>
+            <select name="hotelId">
+                <option th:each="h : ${hoteis}" th:value="${h.id}" th:text="${h.nome}"
+                        th:selected="${registro != null and registro.hotel != null and registro.hotel.id == h.id}"></option>
+            </select>
+        </div>
+
+        <div th:if="${tipo == 'hospede'}">
+            <input type="text" name="nome" placeholder="Nome" th:value="${registro?.nome}" />
+            <input type="text" name="cpf" placeholder="CPF" th:value="${registro?.cpf}" />
+            <input type="text" name="telefone" placeholder="Telefone" th:value="${registro?.telefone}" />
+            <input type="text" name="email" placeholder="E-mail" th:value="${registro?.email}" />
+        </div>
+
+        <div th:if="${tipo == 'funcionario'}">
+            <input type="text" name="nome" placeholder="Nome" th:value="${registro?.nome}" />
+            <input type="text" name="cpf" placeholder="CPF" th:value="${registro?.cpf}" />
+            <input type="text" name="cargo" placeholder="Cargo" th:value="${registro?.cargo}" />
+            <input type="number" step="any" name="salario" placeholder="Salário" th:value="${registro?.salario}" />
+            <select name="hotel.id">
+                <option th:each="h : ${hoteis}" th:value="${h.id}" th:text="${h.nome}"
+                        th:selected="${registro != null and registro.hotel != null and registro.hotel.id == h.id}"></option>
+            </select>
+        </div>
+
+        <div th:if="${tipo == 'servico'}">
+            <input type="text" name="nome" placeholder="Nome do Serviço" th:value="${registro?.nome}" />
+            <input type="text" name="descricao" placeholder="Descrição" th:value="${registro?.descricao}" />
+            <input type="number" step="any" name="valor" placeholder="Valor (R$)" th:value="${registro?.valor}" />
+        </div>
+
+        <div th:if="${tipo == 'reserva'}">
+            <label>Data Entrada:</label> <input type="date" name="dataEntrada" th:value="${registro?.dataEntrada}" /><br><br>
+            <label>Data Saída:</label> <input type="date" name="dataSaida" th:value="${registro?.dataSaida}" /><br><br>
+            <label>Hóspede:</label>
+            <select name="hospede.id">
+                <option th:each="h : ${hospedes}" th:value="${h.id}" th:text="${h.nome + ' (CPF: ' + h.cpf + ')'}"
+                        th:selected="${registro != null and registro.hospede != null and registro.hospede.id == h.id}"></option>
+            </select><br><br>
+            <label>Quarto:</label>
+            <select name="quarto.id">
+                <option th:each="q : ${quartos}" th:value="${q.id}"
+                        th:text="${'Quarto ' + q.numero + ' (' + q.tipo + ')' + (q.hotel != null ? ' - ' + q.hotel.nome : '')}"
+                        th:selected="${registro != null and registro.quarto != null and registro.quarto.id == q.id}"></option>
+            </select><br><br>
+            <div th:if="${registro != null}">
+                <label>Situação:</label>
+                <select name="situacao">
+                    <option th:each="s : ${situacoes}" th:value="${s}" th:text="${s}" th:selected="${registro.situacao == s}"></option>
+                </select><br><br>
+            </div>
+            <small>O valor total é calculado automaticamente (dias × diária do quarto). Nova reserva começa como "Pendente".</small><br>
+        </div>
+
+        <br>
+        <button type="submit" th:text="${registro != null} ? 'Salvar Alterações' : 'Salvar'">Salvar</button>
+        <a th:if="${registro != null}" th:href="@{${urlBase}}" style="margin-left: 10px;">Cancelar edição</a>
+    </form>
+
+    <hr>
+
+    <h3>Cadastrados</h3>
+    <table border="1" cellpadding="8" style="border-collapse: collapse; width: 100%;">
+
+        <tbody th:if="${tipo == 'hotel'}">
+            <tr><th>ID</th><th>Nome</th><th>Endereço</th><th>Telefone</th><th>Ações</th></tr>
+            <tr th:each="item : ${lista}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.nome}"></td>
+                <td th:text="${item.endereco}"></td>
+                <td th:text="${item.telefone}"></td>
+                <td><th:block th:replace="~{fragmentos :: acoes(${item})}"></th:block></td>
+            </tr>
+        </tbody>
+
+        <tbody th:if="${tipo == 'quarto'}">
+            <tr><th>ID</th><th>Número</th><th>Tipo</th><th>Capacidade</th><th>Diária Base</th><th>Diária Final</th><th>Hotel</th><th>Ações</th></tr>
+            <tr th:each="item : ${lista}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.numero}"></td>
+                <td th:text="${item.tipo}"></td>
+                <td th:text="${item.capacidade}"></td>
+                <td th:text="${#numbers.formatDecimal(item.valorDiariaBase, 1, 2, 'COMMA')}"></td>
+                <td th:text="${#numbers.formatDecimal(item.calcularValorDiaria(), 1, 2, 'COMMA')}"></td>
+                <td th:text="${item.hotel != null ? item.hotel.nome : '-'}"></td>
+                <td><th:block th:replace="~{fragmentos :: acoes(${item})}"></th:block></td>
+            </tr>
+        </tbody>
+
+        <tbody th:if="${tipo == 'hospede'}">
+            <tr><th>ID</th><th>Nome</th><th>CPF</th><th>Telefone</th><th>E-mail</th><th>Ações</th></tr>
+            <tr th:each="item : ${lista}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.nome}"></td>
+                <td th:text="${item.cpf}"></td>
+                <td th:text="${item.telefone}"></td>
+                <td th:text="${item.email}"></td>
+                <td><th:block th:replace="~{fragmentos :: acoes(${item})}"></th:block></td>
+            </tr>
+        </tbody>
+
+        <tbody th:if="${tipo == 'funcionario'}">
+            <tr><th>ID</th><th>Nome</th><th>CPF</th><th>Cargo</th><th>Salário</th><th>Hotel</th><th>Ações</th></tr>
+            <tr th:each="item : ${lista}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.nome}"></td>
+                <td th:text="${item.cpf}"></td>
+                <td th:text="${item.cargo}"></td>
+                <td th:text="${item.salario}"></td>
+                <td th:text="${item.hotel != null ? item.hotel.nome : '-'}"></td>
+                <td><th:block th:replace="~{fragmentos :: acoes(${item})}"></th:block></td>
+            </tr>
+        </tbody>
+
+        <tbody th:if="${tipo == 'servico'}">
+            <tr><th>ID</th><th>Nome</th><th>Descrição</th><th>Valor</th><th>Ações</th></tr>
+            <tr th:each="item : ${lista}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.nome}"></td>
+                <td th:text="${item.descricao}"></td>
+                <td th:text="${item.valor}"></td>
+                <td><th:block th:replace="~{fragmentos :: acoes(${item})}"></th:block></td>
+            </tr>
+        </tbody>
+
+        <tbody th:if="${tipo == 'reserva'}">
+            <tr><th>ID</th><th>Hóspede</th><th>Quarto</th><th>Entrada</th><th>Saída</th><th>Valor Total</th><th>Situação</th><th>Ações</th></tr>
+            <tr th:each="item : ${lista}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.hospede != null ? item.hospede.nome : '-'}"></td>
+                <td th:text="${item.quarto != null ? 'Nº ' + item.quarto.numero + ' (' + item.quarto.tipo + ')' : '-'}"></td>
+                <td th:text="${#temporals.format(item.dataEntrada, 'dd/MM/yyyy')}"></td>
+                <td th:text="${#temporals.format(item.dataSaida, 'dd/MM/yyyy')}"></td>
+                <td th:text="${'R$ ' + #numbers.formatDecimal(item.valorTotal, 1, 2, 'COMMA')}"></td>
+                <td th:text="${item.situacao}"></td>
+                <td><th:block th:replace="~{fragmentos :: acoes(${item})}"></th:block></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
