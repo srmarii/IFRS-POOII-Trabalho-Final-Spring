@@ -51,7 +51,6 @@ public class QuartoController {
         return "painel";
     }
 
-    // Quarto é abstrata, então não dá para usar @ModelAttribute: lemos os campos e o service instancia Simples/VIP.
     @PostMapping
     public String salvar(@RequestParam(required = false) Integer numero,
                          @RequestParam(required = false) Integer capacidade,

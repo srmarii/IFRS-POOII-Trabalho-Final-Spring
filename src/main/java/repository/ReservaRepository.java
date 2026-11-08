@@ -11,11 +11,6 @@ import java.time.LocalDate;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
-    /**
-     * Mesma regra do ReservaDAO.isQuartoDisponivel do Swing: conta reservas
-     * não canceladas do quarto cujo período se sobrepõe (extremos inclusos).
-     * Passe -1 em ignorarId ao criar uma reserva nova.
-     */
     @Query("select count(r) from Reserva r where r.quarto.id = :quartoId "
             + "and (r.situacao is null or r.situacao <> 'Cancelada') "
             + "and r.dataEntrada <= :saida and r.dataSaida >= :entrada "

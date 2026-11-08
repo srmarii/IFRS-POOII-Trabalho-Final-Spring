@@ -61,8 +61,6 @@ public class ReservaController {
         return "painel";
     }
 
-    // Quarto é abstrata, então o Spring não consegue montar "quarto.id" via @ModelAttribute.
-    // Por isso lemos os ids como parâmetros simples e o service busca as entidades.
     @PostMapping
     public String salvar(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataEntrada,
                          @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataSaida,

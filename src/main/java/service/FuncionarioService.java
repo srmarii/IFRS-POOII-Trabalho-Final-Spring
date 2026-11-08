@@ -45,7 +45,6 @@ public class FuncionarioService {
         funcionarioRepository.deleteById(id);
     }
 
-    // No Swing o funcionário sempre tem hotel (INNER JOIN), então aqui também é obrigatório.
     private Hotel validarHotel(Funcionario f) {
         if (f.getHotel() == null || f.getHotel().getId() == null) {
             throw new IllegalArgumentException("Selecione um hotel.");

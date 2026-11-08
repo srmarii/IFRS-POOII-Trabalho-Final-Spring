@@ -10,10 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuartoRepository extends JpaRepository<Quarto, Long> {
 
-    /**
-     * UPDATE nativo porque o JPA não permite trocar a classe (Simples <-> VIP)
-     * de uma entidade já existente. É o mesmo UPDATE do QuartoDAO do Swing.
-     */
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = "UPDATE tb_quarto SET numero = :numero, capacidade = :capacidade, "
             + "valor_diaria = :valor, hotel_id = :hotelId, tipo = :tipo WHERE id = :id",

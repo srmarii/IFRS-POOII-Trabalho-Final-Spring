@@ -2,11 +2,6 @@ package model;
 
 import jakarta.persistence.*;
 
-/**
- * Mesma hierarquia do Swing: Quarto (abstrata) -> QuartoSimples / QuartoVIP.
- * Usa a coluna "tipo" de tb_quarto como discriminador (SINGLE_TABLE),
- * exatamente a coluna que o Swing já grava ("Simples" ou "VIP").
- */
 @Entity
 @Table(name = "tb_quarto")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -20,7 +15,6 @@ public abstract class Quarto {
     private Integer numero;
     private Integer capacidade;
 
-    // No banco a coluna se chama valor_diaria e guarda o valor BASE (igual ao Swing)
     @Column(name = "valor_diaria")
     private Double valorDiariaBase;
 

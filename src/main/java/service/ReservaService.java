@@ -14,14 +14,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Regras portadas de TelaReservas / TelaEditarReserva / ReservaDAO (Swing):
- *  - saída deve ser depois da entrada;
- *  - quarto não pode ter outra reserva (não cancelada) no período;
- *  - valorTotal = dias * quarto.calcularValorDiaria()  (VIP = base x 1,5);
- *  - nova reserva nasce "Pendente";
- *  - ao editar para "Cancelada" a checagem de disponibilidade é ignorada.
- */
 @Service
 public class ReservaService {
 
@@ -97,8 +89,6 @@ public class ReservaService {
     public void excluir(Long id) {
         reservaRepository.deleteById(id);
     }
-
-    // ---------- auxiliares ----------
 
     private Hospede buscarHospede(Long hospedeId) {
         if (hospedeId == null) {
